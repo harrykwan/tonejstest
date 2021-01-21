@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.3/Tone.js"
+      integrity="sha512-GeapKvEr49+ZAAbr+1ykcQqsAF3uQhxzVsstn5ry1gEURkO3v1j/wyNIgDWRHzxrumLTRh8sbjPvDdp13q0apA=="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <button onclick="starttone()">start</button>
+    <script>
+      var bassSynth,
+        loopbeat,
+        lasttime = 0;
+      function starttone() {
+        bassSynth = new Tone.MembraneSynth().toMaster();
+        loopbeat = new Tone.Loop(loopbody, "4n");
+        Tone.Transport.bpm.value = 60;
+        Tone.Transport.start();
+        loopbeat.start();
+      }
+
+      function loopbody(time) {
+        const timeinterval = time - lasttime;
+        bassSynth.triggerAttackRelease("c1", "8n", time);
+        if (lasttime > 0)
+          bassSynth.triggerAttackRelease("F2", "8n", time + timeinterval / 2);
+        console.log(time, timeinterval);
+        lasttime = time;
+      }
+      //   const synth = new Tone.PolySynth(Tone.Synth).toDestination();
+      //   const now = Tone.now();
+      //   synth.triggerAttack("D4", now);
+      //   synth.triggerAttack("F4", now + 0.5);
+      //   synth.triggerAttack("A4", now + 1);
+      //   synth.triggerAttack("C5", now + 1.5);
+      //   synth.triggerAttack("E5", now + 2);
+      //   synth.triggerRelease(["D4", "F4", "A4", "C5", "E5"], now + 4);
+      //   const loop = new Tone.Loop((time) => {
+      //     // triggered every eighth note.
+      //     console.log(time);
+      //   }, "8n").start(0);
+      //   Tone.Transport.start();
+    </script>
+  </body>
+</html>
